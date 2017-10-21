@@ -7,9 +7,9 @@
 
   compare_txt.vbs 文件檔案比對程式。
 
-  如果要上傳到 ftp server ，修改 get_sysinfo.bat
-  REM ftp setting
-  set useFtpFG=1
-  set USERNAME=myname
-  set PASSWORD=mypassword
-  set ftpserver=nas.syps.tn.edu.tw
+  如果要上傳到 ftp server ，修改 get_sysinfo.bat  
+  REM ftp setting  
+  set useFtpFG=1  
+  set USERNAME=myname  
+  set PASSWORD=mypassword  
+  set ftpserver=nas.syps.tn.edu.tw  
