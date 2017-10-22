@@ -57,7 +57,7 @@ Loop
 objFile2.Close
 
 If IsEmpty(strNotFound) or strNotFound = "" Then
-  Msgbox "hardware check ok ."
+  ' Msgbox "hardware check ok ."
   WScript.Quit
 else
   Msgbox "hardware check error."
