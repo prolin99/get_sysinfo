@@ -13,3 +13,8 @@
   set USERNAME=myname  
   set PASSWORD=mypassword  
   set ftpserver=nas.syps.tn.edu.tw  
+
+
+改用其它ftp
+
+  https://stackoverflow.com/questions/18643542/how-to-use-passive-ftp-mode-in-windows-command-prompt
