@@ -20,9 +20,16 @@ if '%choice%'=='0' goto :exit
 
 :addstartup
 cls
-copy get_sysinfo.bat c:\tools\.
-copy compare_txt.vbs c:\tools\.
-reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run\ /v %keyname% /t REG_SZ /d "%expath%"
+SET mypath=%~dp0
+REM echo %mypath%
+ 
+ 
+echo %cd%
+mkdir c:\tools
+copy /y %mypath%\get_sysinfo.bat c:\tools\.
+copy /y %mypath%\compare_txt.vbs c:\tools\.
+copy /y %mypath%\curl.exe c:\tools\.
+reg add  HKLM\Software\Microsoft\Windows\CurrentVersion\Run\ /v %keyname% /t REG_SZ /d "%expath%" /f
 
 timeout /t 2 >nul
 

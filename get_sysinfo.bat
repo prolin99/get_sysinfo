@@ -2,17 +2,30 @@
 
 REM ===========================
 REM ftp setting
-set useFtpFG=0
-set USERNAME=myname
-set PASSWORD=mypassword
-set ftpserver=nas.syps.tn.edu.tw
+set useFtpFG=1
+set USERNAME=getinfo
+set PASSWORD=sy6322136
+set ftpserver=ftp://120.116.24.2/home/
 
 REM ===========================
 
 
 cd %0\..\
-set now_path=%cd%
-set mydate=%date:~0,4%%date:~5,2%%date:~8,2%_%time:~0,2%%time:~3,2%%time:~6,5%
+SET now_path=%~dp0
+REM echo %now_path%
+
+set hour=%time:~0,2%
+if "%hour:~0,1%" == " " set hour=0%hour:~1,1%
+REM echo hour=%hour%
+set min=%time:~3,2%
+if "%min:~0,1%" == " " set min=0%min:~1,1%
+REM echo min=%min%
+set secs=%time:~6,2%
+if "%secs:~0,1%" == " " set secs=0%secs:~1,1%
+REM echo secs=%secs%
+
+set mydate=%date:~0,4%%date:~5,2%%date:~8,2%_%hour%%min%%secs%
+ 
 REM  echo %mydate%
 
 set file=%mydate%.txt
@@ -20,17 +33,21 @@ set file=%mydate%.txt
 REM wmic os get localdatetime > %file%
 
 REM echo bios >> %file%
-
+REM wmic csproduct get UUID
 wmic csproduct get UUID >> %file%
 
+REM wmic bios get name
 wmic bios get name >> %file%
 
-
+REM wmic cpu get name
 wmic cpu get name >> %file%
 
+REM  wmic MEMPHYSICAL get maxcapacity
 wmic MEMPHYSICAL get maxcapacity >> %file%
 
+REM wmic NICCONFIG   get dhcpserver
 wmic NICCONFIG   get dhcpserver   >> %file%
+REM wmic NICCONFIG   get IPAddress
 wmic NICCONFIG   get IPAddress  >> %file%
 
 REM wmic product get name >> %file%
@@ -47,17 +64,7 @@ copy %file% FIRST_SYSTEM_INFO
 :step2
 
 if %useFtpFG% EQU 1 (
-(
-   echo %USERNAME%
-   echo %PASSWORD%
-   echo asc
-   echo put %now_path%\%file%
-   echo quit
-  )>upload.txt
-
-  ftp  -s:upload.txt %ftpsever%
-
-  del upload.txt
+   %now_path%\curl.exe -T  %file%   %ftpserver%%file% --user   %USERNAME%:%PASSWORD%
 )
 
 cscript %now_path%\compare_txt.vbs %file%  FIRST_SYSTEM_INFO
