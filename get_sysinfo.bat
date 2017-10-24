@@ -3,8 +3,8 @@
 REM ===========================
 REM ftp setting
 set useFtpFG=1
-set USERNAME=getinfo
-set PASSWORD=sy6322136
+set USERNAME=ftpuser
+set PASSWORD=ftppassword
 set ftpserver=ftp://120.116.24.2/home/
 
 REM ===========================
@@ -25,7 +25,7 @@ if "%secs:~0,1%" == " " set secs=0%secs:~1,1%
 REM echo secs=%secs%
 
 set mydate=%date:~0,4%%date:~5,2%%date:~8,2%_%hour%%min%%secs%
- 
+
 REM  echo %mydate%
 
 set file=%mydate%.txt
