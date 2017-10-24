@@ -11,4 +11,5 @@
   REM ftp setting  
   set useFtpFG=1  
   set USERNAME=myname  
+  set PASSWORD=ftppassword
   set ftpserver=ftp://nas.syps.tn.edu.tw/home  
