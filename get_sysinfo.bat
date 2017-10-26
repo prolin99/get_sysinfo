@@ -1,4 +1,6 @@
 @echo off
+REM utf8
+
 
 REM ===========================
 REM ftp setting
@@ -6,13 +8,15 @@ set useFtpFG=1
 set USERNAME=ftpuser
 set PASSWORD=ftppassword
 set ftpserver=ftp://120.116.24.2/home/
+set newftp=ftp://120.116.24.2/new/
 
 REM ===========================
 
 
-cd %0\..\
+
 SET now_path=%~dp0
 REM echo %now_path%
+cd %now_path%
 
 set hour=%time:~0,2%
 if "%hour:~0,1%" == " " set hour=0%hour:~1,1%
@@ -30,9 +34,9 @@ REM  echo %mydate%
 
 set file=%mydate%.txt
 
+REM chcp 65001
 REM wmic os get localdatetime > %file%
 
-REM echo bios >> %file%
 REM wmic csproduct get UUID
 wmic csproduct get UUID >> %file%
 
@@ -70,3 +74,7 @@ if %useFtpFG% EQU 1 (
 cscript %now_path%\compare_txt.vbs %file%  FIRST_SYSTEM_INFO
 
 del %file%
+
+REM  auto DownLoad new version get_sysinfo.bat
+%now_path%\curl.exe  %nftp%get_sysinfo.bat --user   %USERNAME%:%PASSWORD%
+%now_path%\curl.exe  %nftp%compare_txt.vbs --user   %USERNAME%:%PASSWORD%

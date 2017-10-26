@@ -11,7 +11,7 @@ File2 = WScript.Arguments(1)
 
 OutputFile = "outfile.txt"
 
-
+objStream.CharSet = "utf-8"
 Dim objFSO : Set objFSO = CreateObject("Scripting.FileSystemObject")
 If ObjFSO.FileExists(File1) Then
   Dim objFile1 : Set objFile1 = objFSO.OpenTextFile(File1, ForReading)
@@ -28,6 +28,8 @@ Dim StrLine, SearchLine, strNotFound
 ' Read reference file into dictionary object.
 Do Until objFile1.AtEndOfStream
   StrLine = Trim(objFile1.ReadLine)
+  msgbox "aaa" & StrLine
+
   if Not RefDict.Exists(StrLine) Then
     RefDict.Add StrLine, "1"
   End If
@@ -56,14 +58,16 @@ Loop
 
 objFile2.Close
 
-If IsEmpty(strNotFound) or strNotFound = "" Then
+If IsEmpty(strNotFound) or trim(strNotFound) = "" Then
   ' Msgbox "hardware check ok ."
   WScript.Quit
 else
-  Msgbox "hardware check error."
+   ' Msgbox "hardware check error."
+   WScript.Quit
 End If
 
-Dim objFile3 : Set objFile3 = objFSO.CreateTextFile(OutputFile, True)
+'Dim objFile3 : Set objFile3 = objFSO.CreateTextFile(OutputFile, True)
 
-objFile3.WriteLine strNotFound
-objFile3.Close
+'objFile3.WriteLine strNotFound
+'objFile3.Close
+' https://stackoverflow.com/questions/1410334/filesystemobject-reading-unicode-files
