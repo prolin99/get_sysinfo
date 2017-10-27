@@ -34,25 +34,21 @@ REM  echo %mydate%
 
 set file=%mydate%.txt
 
-REM chcp 65001
-REM wmic os get localdatetime > %file%
-
-REM wmic csproduct get UUID
 wmic csproduct get UUID >> %file%
 
-REM wmic bios get name
-wmic bios get name >> %file%
 
-REM wmic cpu get name
+wmic bios get biosversion , name >> %file%
+
+
 wmic cpu get name >> %file%
 
-REM  wmic MEMPHYSICAL get maxcapacity
+
 wmic MEMPHYSICAL get maxcapacity >> %file%
 
-REM wmic NICCONFIG   get dhcpserver
+
 wmic NICCONFIG   get dhcpserver   >> %file%
-REM wmic NICCONFIG   get IPAddress
-wmic NICCONFIG   get IPAddress  >> %file%
+
+wmic NICCONFIG   get IPAddress , macaddress  >> %file%
 
 REM wmic product get name >> %file%
 
