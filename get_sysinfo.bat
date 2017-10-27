@@ -8,7 +8,7 @@ set useFtpFG=1
 set USERNAME=ftpuser
 set PASSWORD=ftppassword
 set ftpserver=ftp://120.116.24.2/home/
-set newftp=ftp://120.116.24.2/new/
+set newftp=ftp://120.116.24.2/home/new/
 
 REM ===========================
 
@@ -68,13 +68,17 @@ copy %file% FIRST_SYSTEM_INFO
 :step2
 
 if %useFtpFG% EQU 1 (
-   %now_path%\curl.exe -T  %file%   %ftpserver%%file% --user   %USERNAME%:%PASSWORD%
+   %now_path%curl.exe -T  %file%   %ftpserver%%file% --user   %USERNAME%:%PASSWORD%  --silent
 )
 
-cscript %now_path%\compare_txt.vbs %file%  FIRST_SYSTEM_INFO
+cscript %now_path%compare_txt.vbs %file%  FIRST_SYSTEM_INFO
 
 del %file%
 
 REM  auto DownLoad new version get_sysinfo.bat
-%now_path%\curl.exe  %nftp%get_sysinfo.bat --user   %USERNAME%:%PASSWORD%
-%now_path%\curl.exe  %nftp%compare_txt.vbs --user   %USERNAME%:%PASSWORD%
+%now_path%curl.exe   -O  %newftp%get_sysinfo.bat --user   %USERNAME%:%PASSWORD% --silent
+
+
+%now_path%curl.exe   -O  %newftp%compare_txt.vbs --user   %USERNAME%:%PASSWORD% --silent
+
+REM 20171027_0904
