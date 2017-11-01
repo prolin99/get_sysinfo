@@ -4,11 +4,12 @@ REM utf8
 
 REM ===========================
 REM ftp setting
-set useFtpFG=1
+set useFtpFG=0
 set USERNAME=ftpuser
 set PASSWORD=ftppassword
 set ftpserver=ftp://120.116.24.2/home/
 set newftp=ftp://120.116.24.2/home/new/
+set RealIpPage=http://120.116.24.6/xoops/modules/info_whats/yourip.php
 
 REM ===========================
 
@@ -52,6 +53,11 @@ wmic NICCONFIG   get IPAddress , macaddress  >> %file%
 
 REM wmic product get name >> %file%
 
+%now_path%curl -4 RealIpPage -o ip.txt  --silent
+
+type ip.txt >> %file%
+
+del ip.txt
 
 
 
@@ -77,4 +83,4 @@ REM  auto DownLoad new version get_sysinfo.bat
 
 %now_path%curl.exe   -O  %newftp%compare_txt.vbs --user   %USERNAME%:%PASSWORD% --silent
 
-REM 20171027_0904
+REM 20171101_0820
