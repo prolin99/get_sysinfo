@@ -22,5 +22,6 @@
   REM 新版本存放位置，提供客戶端下載  
   set newftp=ftp://120.116.24.2/home/new/  
 
-  REM 取得 IPv4 的網頁（在虚擬IP段，對外使用的真實IP）
+  REM 取得 IPv4 的網頁（在虚擬IP段，對外使用的真實IP）  
+
   set RealIpPage=http://120.116.24.6/xoops/modules/info_whats/yourip.php  

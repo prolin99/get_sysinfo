@@ -4,9 +4,9 @@ REM utf8
 
 REM ===========================
 REM ftp setting
-set useFtpFG=0
-set USERNAME=ftpuser
-set PASSWORD=ftppassword
+set useFtpFG=1
+set USERNAME=user
+set PASSWORD=passwd
 set ftpserver=ftp://120.116.24.2/home/
 set newftp=ftp://120.116.24.2/home/new/
 set RealIpPage=http://120.116.24.6/xoops/modules/info_whats/yourip.php
@@ -35,30 +35,33 @@ REM  echo %mydate%
 
 set file=%mydate%.txt
 
+REM chcp 65001
+REM wmic os get localdatetime > %file%
+
+REM wmic csproduct get UUID
 wmic csproduct get UUID >> %file%
 
-
+REM wmic bios get name
 wmic bios get biosversion , name >> %file%
 
-
+REM wmic cpu get name
 wmic cpu get name >> %file%
 
-
+REM  wmic MEMPHYSICAL get maxcapacity
 wmic MEMPHYSICAL get maxcapacity >> %file%
 
-
+REM wmic NICCONFIG   get dhcpserver
 wmic NICCONFIG   get dhcpserver   >> %file%
-
-wmic NICCONFIG   get IPAddress , macaddress  >> %file%
+REM wmic NICCONFIG   get IPAddress
+wmic NICCONFIG   get IPAddress , macaddress >> %file%
 
 REM wmic product get name >> %file%
 
-%now_path%curl -4 RealIpPage -o ip.txt  --silent
+%now_path%curl.exe -4 %RealIpPage% -o ip.txt  --silent
 
 type ip.txt >> %file%
 
-del ip.txt
-
+del ip.txt 
 
 
 REM copy the first info
@@ -78,9 +81,18 @@ cscript %now_path%compare_txt.vbs %file%  FIRST_SYSTEM_INFO
 del %file%
 
 REM  auto DownLoad new version get_sysinfo.bat
-%now_path%curl.exe   -O  %newftp%get_sysinfo.bat --user   %USERNAME%:%PASSWORD% --silent
 
+
+REM compare_txt
 
 %now_path%curl.exe   -O  %newftp%compare_txt.vbs --user   %USERNAME%:%PASSWORD% --silent
 
-REM 20171101_0820
+
+
+%now_path%curl.exe   -O  %newftp%get_sysinfo.bat --user   %USERNAME%:%PASSWORD% --silent
+
+
+
+
+
+REM 20171106_1400
