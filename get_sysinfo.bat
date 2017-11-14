@@ -1,17 +1,20 @@
 @echo off
+REM 20171114 0835
 REM utf8
 
 
 REM ===========================
-REM ftp setting
-set useFtpFG=1
-set USERNAME=user
-set PASSWORD=passwd
-set ftpserver=ftp://120.116.24.2/home/
-set newftp=ftp://120.116.24.2/home/new/
-set RealIpPage=http://120.116.24.6/xoops/modules/info_whats/yourip.php
-
+REM setting
+set UploadFG=1
+set Web=http://120.116.25.31:8080/x259/modules/info_whats/
+set key=info_whats
 REM ===========================
+
+set UploadPage=%Web%comp_on.php
+set NewVersion=%Web%news/
+set RealIpPage=%Web%yourip.php
+
+
 
 
 
@@ -52,8 +55,15 @@ wmic MEMPHYSICAL get maxcapacity >> %file%
 
 REM wmic NICCONFIG   get dhcpserver
 wmic NICCONFIG   get dhcpserver   >> %file%
+
+wmic ComputerSystem get TotalPhysicalMemory >> %file%
+
+wmic baseboard get product,Manufacturer,version,serialnumber >> %file%
+
+
 REM wmic NICCONFIG   get IPAddress
 wmic NICCONFIG   get IPAddress , macaddress >> %file%
+
 
 REM wmic product get name >> %file%
 
@@ -61,7 +71,7 @@ REM wmic product get name >> %file%
 
 type ip.txt >> %file%
 
-del ip.txt 
+del ip.txt
 
 
 REM copy the first info
@@ -72,8 +82,8 @@ copy %file% FIRST_SYSTEM_INFO
 
 :step2
 
-if %useFtpFG% EQU 1 (
-   %now_path%curl.exe -T  %file%   %ftpserver%%file% --user   %USERNAME%:%PASSWORD%  --silent
+if %UploadFG% EQU 1 (
+   %now_path%curl -X POST -F "do=%key%" -F "uploaded=@%file%"  %UploadPage% -silent
 )
 
 cscript %now_path%compare_txt.vbs %file%  FIRST_SYSTEM_INFO
@@ -85,14 +95,8 @@ REM  auto DownLoad new version get_sysinfo.bat
 
 REM compare_txt
 
-%now_path%curl.exe   -O  %newftp%compare_txt.vbs --user   %USERNAME%:%PASSWORD% --silent
+%now_path%curl.exe  --fail -O  %NewVersion%compare_txt.vbs   --silent
 
 
 
-%now_path%curl.exe   -O  %newftp%get_sysinfo.bat --user   %USERNAME%:%PASSWORD% --silent
-
-
-
-
-
-REM 20171106_1400
+%now_path%curl.exe  --fail  -O  %NewVersion%get_sysinfo.bat   --silent
